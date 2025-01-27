@@ -197,6 +197,9 @@ instance FromXML AllocationStrategy where
 data ArchitectureValues
   = I386
   | X86_64
+  | Arm64
+  | X86_64_Mac
+  | Arm64_Mac
   deriving (Eq, Ord, Read, Show, Enum, Bounded, Data, Typeable, Generic)
 
 
@@ -204,13 +207,19 @@ instance FromText ArchitectureValues where
     parser = takeLowerText >>= \case
         "i386" -> pure I386
         "x86_64" -> pure X86_64
+        "arm64" -> pure Arm64
+        "x86_64_mac" -> pure X86_64_Mac
+        "arm65_mac" -> pure Arm64_Mac
         e -> fromTextError $ "Failure parsing ArchitectureValues from value: '" <> e
-           <> "'. Accepted values: i386, x86_64"
+           <> "'. Accepted values: i386, x86_64, arm64, x86_64_mac, arm64_mac"
 
 instance ToText ArchitectureValues where
     toText = \case
         I386 -> "i386"
         X86_64 -> "x86_64"
+        Arm64 -> "arm64"
+        X86_64_Mac -> "x86_64_mac"
+        Arm64_Mac -> "arm64_mac"
 
 instance Hashable     ArchitectureValues
 instance NFData       ArchitectureValues
